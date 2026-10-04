@@ -51,6 +51,7 @@ Invalid IPv4 Is Rejected
 
 *** Keywords ***
 Open Application
+    Log To Console    ${selenium.__version__}
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     Call Method    ${options}    add_argument    --headless=new
     Call Method    ${options}    add_argument    --no-sandbox
