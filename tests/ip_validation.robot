@@ -22,7 +22,7 @@ Valid IPv4 Is Accepted
     Click Button    ${VALIDATE_BUTTON}
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be True    ${visible}
-    Capture Page Screenshot    selenium-screenshot-{index}.png
+    Capture Page Screenshot    BASE64
     Click Button    ${NEXT_BUTTON}
  
 
