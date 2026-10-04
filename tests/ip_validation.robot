@@ -28,7 +28,7 @@ Valid IPv4 Is Accepted
     
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be Equal    ${visible}    ${expected}
-    Capture Page Screenshot   
+    Capture Page Screenshot    BASE64
  
 
 Invalid IPv4 Is Rejected
@@ -44,7 +44,7 @@ Invalid IPv4 Is Rejected
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Not Be Equal    ${visible}    ${expected}
-    Capture Page Screenshot
+    Capture Page Screenshot    BASE64
 
 
 Valid IPv6 Is Accepted
@@ -60,7 +60,7 @@ Valid IPv6 Is Accepted
     
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be Equal    ${visible}    ${expected}
-    Capture Page Screenshot   
+    Capture Page Screenshot    BASE64
  
 
 Invalid IPv6 Is Rejected
@@ -76,7 +76,7 @@ Invalid IPv6 Is Rejected
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Not Be Equal    ${visible}    ${expected}
-    Capture Page Screenshot
+    Capture Page Screenshot    BASE64
 
 *** Keywords ***
 Open Application
