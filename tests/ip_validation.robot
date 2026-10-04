@@ -2,7 +2,7 @@
 Library    SeleniumLibrary
 Library    ../libs/ipvalidation.py
 
-Suite Setup       Open Application
+Suite Setup       Open Application2
 Suite Teardown    Close Browser
 
 *** Variables ***
@@ -55,4 +55,13 @@ Open Application
     Call Method    ${options}    add_argument    --no-sandbox
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     Call Method    ${options}    add_argument    --disable-gpu
+    Open Browser    browser=chrome    options=${options}
+
+Open Application2
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+    Evaluate    $options.add_argument("--headless=new")
+    Evaluate    $options.add_argument("--no-sandbox")
+    Evaluate    $options.add_argument("--disable-dev-shm-usage")
+    Evaluate    $options.add_argument("--disable-gpu")
+    Evaluate    $options.add_argument("--window-size=1920,1080")
     Open Browser    browser=chrome    options=${options}
