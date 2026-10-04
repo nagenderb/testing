@@ -35,7 +35,7 @@ Invalid IPv4 Is Rejected
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Be True    ${visible}
-
+    Capture Page Screenshot
 
 
 *** Keywords ***
