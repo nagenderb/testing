@@ -13,7 +13,6 @@ ${VALIDATION_MESSAGE}     id=validationMessage
 ${ERROR_MESSAGE}          id=errorMessage
 ${NEXT_BUTTON}            id=nextBtn
 
-
 *** Test Cases ***
 Valid IPv4 Is Accepted
     [Documentation]    Verify that a valid IPv4 address is accepted by the UI.
