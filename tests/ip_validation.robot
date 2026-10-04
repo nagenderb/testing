@@ -23,8 +23,8 @@ Valid IPv4 Is Accepted
     Click Button    ${VALIDATE_BUTTON}
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be True    ${visible}
-    
-
+    Take Screenshot   
+ 
 
 Invalid IPv4 Is Rejected
     [Documentation]    Verify that an invalid IPv4 address is rejected by the UI.
