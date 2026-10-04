@@ -49,6 +49,37 @@ Invalid IPv4 Is Rejected
     Should Not Be Equal    ${visible}    ${expected}
 
 
+Valid IPv6 Is Accepted
+    [Documentation]    Verify that a valid IPv6 address is accepted by the UI.
+    New Page    ${URL}
+    ${ip}=    Set Variable    2001:db8::25
+
+    ${expected}=    Is Valid IPv6    ${ip}
+    Should Be True    ${expected}
+
+    Fill Text    ${IP_FIELD}    ${ip}
+    Click    ${VALIDATE_BUTTON}
+
+    ${actual}=    Get Element States    ${VALIDATION_MESSAGE}
+    ${visible}=    Evaluate    "visible" in ${actual}
+    Should Be Equal    ${visible}    ${expected}
+
+
+Invalid IPv6 Is Rejected
+    [Documentation]    Verify that an invalid IPv6 address is rejected by the UI.
+    New Page    ${URL}
+    ${ip}=    Set Variable    2001:::25
+
+    ${expected}=    Is Valid IPv6    ${ip}
+    Should Not Be True    ${expected}
+
+    Fill Text    ${IP_FIELD}    ${ip}
+    Click    ${VALIDATE_BUTTON}
+
+    ${actual}=    Get Element States    ${ERROR_MESSAGE}
+    ${visible}=    Evaluate    "visible" in ${actual}
+    Should Not Be Equal    ${visible}    ${expected}
+
 
 *** Keywords ***
 Open Application
