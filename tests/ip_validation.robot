@@ -23,7 +23,8 @@ Valid IPv4 Is Accepted
     Click Button    ${VALIDATE_BUTTON}
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be True    ${visible}
-    Capture Page Screenshot   
+    Capture Page Screenshot
+    Click Button    ${NEXT_BUTTON}
  
 
 Invalid IPv4 Is Rejected
@@ -36,6 +37,7 @@ Invalid IPv4 Is Rejected
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Be True    ${visible}
     Capture Page Screenshot
+    Click Button    ${NEXT_BUTTON}
 
 
 *** Keywords ***
