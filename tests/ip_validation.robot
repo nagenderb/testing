@@ -44,6 +44,7 @@ Invalid IPv4 Is Rejected
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Not Be Equal    ${visible}    ${expected}
+    Capture Page Screenshot
 
 
 Valid IPv6 Is Accepted
@@ -75,6 +76,7 @@ Invalid IPv6 Is Rejected
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Not Be Equal    ${visible}    ${expected}
+    Capture Page Screenshot
 
 *** Keywords ***
 Open Application
