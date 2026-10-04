@@ -30,16 +30,11 @@ Invalid IPv4 Is Rejected
     [Documentation]    Verify that an invalid IPv4 address is rejected by the UI.
     Go To    ${URL}
     ${ip}=    Set Variable    192.168.999.25
-
-    ${expected}=    Is Valid IPv4    ${ip}
-    Should Not Be True    ${expected}
-
     Input Text    ${IP_FIELD}    ${ip}
     Click Button    ${VALIDATE_BUTTON}
-
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
     # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
-    Should Not Be Equal    ${visible}    ${expected}
+    Should Be True    ${visible}
 
 
 
