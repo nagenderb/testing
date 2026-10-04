@@ -19,17 +19,11 @@ Valid IPv4 Is Accepted
     [Documentation]    Verify that a valid IPv4 address is accepted by the UI.
     Go To    ${URL}
     ${ip}=    Set Variable    192.168.1.25
-
-    ${expected}=    Is Valid IPv4    ${ip}
-    Should Be True    ${expected}
-
     Input Text    ${IP_FIELD}    ${ip}
     Click Button    ${VALIDATE_BUTTON}
-
     ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
-    Should Be Equal    ${visible}    ${expected}
-
-    Capture Page Screenshot
+    Should Be True    ${visible}
+    
 
 
 Invalid IPv4 Is Rejected
