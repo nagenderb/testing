@@ -1,6 +1,5 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    ../libs/ipvalidation.py
 
 Suite Setup       Open Application
 Suite Teardown    Close Browser
