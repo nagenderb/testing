@@ -1,5 +1,5 @@
 *** Settings ***
-Library    Browser
+Library    SeleniumLibrary
 Library    ../libs/ipvalidation.py
 
 Suite Setup       Open Application
@@ -17,40 +17,38 @@ ${NEXT_BUTTON}            id=nextBtn
 *** Test Cases ***
 Valid IPv4 Is Accepted
     [Documentation]    Verify that a valid IPv4 address is accepted by the UI.
-    New Page    ${URL}
+    Go To    ${URL}
     ${ip}=    Set Variable    192.168.1.25
 
     ${expected}=    Is Valid IPv4    ${ip}
     Should Be True    ${expected}
 
-    Fill Text    ${IP_FIELD}    ${ip}
-    Click    ${VALIDATE_BUTTON}
+    Input Text    ${IP_FIELD}    ${ip}
+    Click Button    ${VALIDATE_BUTTON}
 
-    ${actual}=    Get Element States    ${VALIDATION_MESSAGE}
-    ${visible}=    Evaluate    "visible" in ${actual}
+    ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${VALIDATION_MESSAGE}
     Should Be Equal    ${visible}    ${expected}
 
-    Take Screenshot
+    Capture Page Screenshot
 
 
 Invalid IPv4 Is Rejected
     [Documentation]    Verify that an invalid IPv4 address is rejected by the UI.
-    New Page    ${URL}
+    Go To    ${URL}
     ${ip}=    Set Variable    192.168.999.25
 
     ${expected}=    Is Valid IPv4    ${ip}
     Should Not Be True    ${expected}
 
-    Fill Text    ${IP_FIELD}    ${ip}
-    Click    ${VALIDATE_BUTTON}
+    Input Text    ${IP_FIELD}    ${ip}
+    Click Button    ${VALIDATE_BUTTON}
 
-    ${actual}=    Get Element States    ${ERROR_MESSAGE}
-    ${visible}=    Evaluate    "visible" in ${actual}
+    ${visible}=    Run Keyword And Return Status    Element Should Be Visible    ${ERROR_MESSAGE}
+    # Since expected is False, 'visible' should be True (not equal to expected) if it rejected it properly
     Should Not Be Equal    ${visible}    ${expected}
 
 
 
 *** Keywords ***
 Open Application
-    New Browser    chromium    headless=False
-    New Context
+    Open Browser    browser=chrome    options=add_experimental_option("detach", True)
