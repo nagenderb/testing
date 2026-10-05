@@ -17,3 +17,9 @@ def is_valid_ipv4(address):
     except ValueError:
         return False
 
+def is_valid_ipv6(address):
+    """Return True when address is a valid IPv6 address."""
+    try:
+        return isinstance(ip_address.ip_address(address),ip_address.IPv6Address)
+    except ValueError:
+        return False
