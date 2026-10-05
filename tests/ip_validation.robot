@@ -48,7 +48,7 @@ Invalid IPv4 Is Rejected
 Valid IPv6 Is Accepted
     [Documentation]    Verify that a valid IPv6 address is accepted by the UI.
     Go To    ${URL}
-    ${ip}=    Set Variable    2001:db8:25
+    ${ip}=    Set Variable    2001:db8::25
     
     ${expected}=    Is Valid IPv6    ${ip}
     Should Be True    ${expected}
