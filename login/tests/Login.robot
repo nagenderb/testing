@@ -1,8 +1,8 @@
 
 *** Settings ***
 Library    SeleniumLibrary
-Library    ../common/app.robot
-Library    ../common/login.robot
+Resource    ../libs/common/app.robot
+Resource    ../libs/common/login.robot
 
 *** Test Cases ***
 Register A New User

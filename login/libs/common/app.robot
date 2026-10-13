@@ -3,7 +3,7 @@ Library    SeleniumLibrary
 
 
 *** Variables ***
-${URL}                    file://${CURDIR}/../../host/login.html
+${URL}                    file://${CURDIR}/../../host/
 
 
 
@@ -16,4 +16,6 @@ Open Application
     Evaluate    $options.add_argument("--disable-gpu")
     Evaluate    $options.add_argument("--window-size=1920,1080")
     Open Browser    browser=chrome    options=${options}
+    Log    APP_VERSION is set to: ${APP_VERSION}
+    Go To    ${URL}${APP_VERSION}.html
     Capture Page Screenshot    BASE64

@@ -2,13 +2,12 @@
 Library    SeleniumLibrary
 
 *** Variables ***
-${URL}                    file://${CURDIR}/../../host/login.html
 ${register_button}        //button[normalize-space(.)='Register']
 
 *** Keywords ***
 Start Registering
-    Log    APP_VERSION is set to: ${APP_VERSION}
-    Wait Until Element Is Visible    text=Register
+    
+    Wait Until Element Is Visible    ${register_button}
     Click Element    ${register_button}
     Capture Page Screenshot    BASE64
 
