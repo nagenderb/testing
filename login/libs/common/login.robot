@@ -6,7 +6,7 @@ ${register_button}        //button[normalize-space(.)='Register']
 
 *** Keywords ***
 Start Registering
-    
+    Capture Page Screenshot    BASE64
     Wait Until Element Is Visible    ${register_button}
     Click Element    ${register_button}
     Capture Page Screenshot    BASE64
