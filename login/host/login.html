@@ -1,4 +1,7 @@
-<html lang="en"><head>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Secure Portal</title>
@@ -160,6 +163,90 @@
             font-size: 12px;
         }
 
+        /* Custom modal overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-overlay[hidden] {
+            display: none;
+        }
+
+        /* Modal dialog */
+        .modal {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            animation: modalAppear 0.2s ease-out;
+        }
+
+        .modal h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .modal p {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 24px;
+            white-space: pre-line;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-close {
+            min-width: 90px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #1d4ed8;
+        }
+
+        .modal-close:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 3px;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .modal {
+                animation: none;
+            }
+        }
+
         @media (max-width: 480px) {
             .login-card {
                 padding: 26px 22px;
@@ -167,6 +254,10 @@
 
             .login-card h1 {
                 font-size: 25px;
+            }
+
+            .modal {
+                padding: 24px;
             }
         }
     </style>
@@ -187,22 +278,28 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="username" required="">
+                    <input type="email" id="email" name="email"
+                           placeholder="you@example.com"
+                           autocomplete="username" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required="">
+                    <input type="password" id="password" name="password"
+                           placeholder="Enter your password"
+                           autocomplete="current-password" required>
                 </div>
 
                 <a href="#" class="forgot-password">Forgot password?</a>
 
                 <div class="button-group">
-                    <button type="button" id="registerBtn" class="btn btn-register">
-                        Signup
+                    <button type="button" id="registerBtn"
+                            class="btn btn-register">
+                        Register
                     </button>
 
-                    <button type="submit" id="loginBtn" class="btn btn-login">
+                    <button type="submit" id="loginBtn"
+                            class="btn btn-login">
                         Login
                     </button>
                 </div>
@@ -214,19 +311,84 @@
         © 2026 SecurePortal. All rights reserved.
     </footer>
 
-    <script>
-        // Demo interactions for UI automation.
-        // These buttons do not perform real account operations.
+    <!-- Custom HTML modal: visible to Selenium screenshots -->
+    <div id="modalOverlay" class="modal-overlay" hidden>
+        <section class="modal"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="modalTitle"
+                 aria-describedby="modalMessage"
+                 tabindex="-1">
 
-        document.getElementById("registerBtn").addEventListener("click", () => {
-            alert("Register button clicked");
+            <h2 id="modalTitle">Notification</h2>
+            <p id="modalMessage"></p>
+
+            <div class="modal-actions">
+                <button type="button" id="modalClose"
+                        class="modal-close">
+                    OK
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const modalOverlay = document.getElementById("modalOverlay");
+        const modal = modalOverlay.querySelector(".modal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalMessage = document.getElementById("modalMessage");
+        const modalClose = document.getElementById("modalClose");
+
+        let previousFocus = null;
+
+        function showModal(title, message) {
+            previousFocus = document.activeElement;
+
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+
+            modalOverlay.hidden = false;
+            modal.focus();
+        }
+
+        function closeModal() {
+            modalOverlay.hidden = true;
+
+            if (previousFocus) {
+                previousFocus.focus();
+            }
+        }
+
+        document.getElementById("registerBtn")
+            .addEventListener("click", () => {
+                showModal(
+                    "Registration",
+                    "You will be redirected to Registration.\nPlease keep your details ready."
+                );
+            });
+
+        document.getElementById("loginForm")
+            .addEventListener("submit", (event) => {
+                event.preventDefault();
+                showModal("Login", "Login button clicked");
+            });
+
+        modalClose.addEventListener("click", closeModal);
+
+        // Close when clicking the dark overlay outside the modal.
+        modalOverlay.addEventListener("click", (event) => {
+            if (event.target === modalOverlay) {
+                closeModal();
+            }
         });
 
-        document.getElementById("loginForm").addEventListener("submit", (event) => {
-            event.preventDefault();
-            alert("Login button clicked");
+        // Close with Escape.
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !modalOverlay.hidden) {
+                closeModal();
+            }
         });
     </script>
-
-
-</body></html>
+</body>
+</html>
+```
