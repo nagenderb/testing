@@ -2,11 +2,16 @@
 Library    SeleniumLibrary
 
 *** Variables ***
-${register_button}        //button[normalize-space(.)='Register']
+# ${register_button}        //button[normalize-space(.)='Register']
 
 *** Keywords ***
 Start Registering
     Capture Page Screenshot    BASE64
+    IF    '${APP_VERSION}' == 'Latest'
+        ${register_button}=    Set Variable    //button[normalize-space(.)='SignUp']
+    ELSE
+        ${register_button}=    Set Variable    //button[normalize-space(.)='Register']
+    END
     Wait Until Element Is Visible    ${register_button}
     Click Element    ${register_button}
     Capture Page Screenshot    BASE64
