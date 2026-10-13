@@ -1,0 +1,27 @@
+# Robot Framework results - ignore any results folder anywhere
+results/
+
+# Robot Framework output files
+output.xml
+log.html
+report.html
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary and log files
+*.log
+*.tmp
