@@ -7,7 +7,7 @@ ${register_button}        //button[normalize-space(.)='Register']
 *** Keywords ***
 
 Create Network Configuration
-    [Arguments] ${networkName}      ${ipAddress}        ${subnetMask}       ${gateway}      ${dnsServer}
+    [Arguments]     ${networkName}    ${ipAddress}    ${subnetMask}    ${gateway}    ${dnsServer}
     Input Text    id=networkName    ${networkName}
     Input Text    id=ipAddress      ${ipAddress}
     Input Text    id=subnetMask     ${subnetMask}
