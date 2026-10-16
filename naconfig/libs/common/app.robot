@@ -18,5 +18,5 @@ Open Application
     Open Browser    browser=chrome    options=${options}
     ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
     Log    APP_VERSION is set to: ${version}
-    Go To    ${URL}${version}.html
+    Go To    ${URL}
     Capture Page Screenshot    BASE64
