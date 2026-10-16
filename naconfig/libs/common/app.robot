@@ -3,7 +3,7 @@ Library    SeleniumLibrary
 
 
 *** Variables ***
-${URL}                    file://${CURDIR}/../../host/
+${URL}                    file://${CURDIR}/../../host/na.html
 ${DEFAULT_APP_VERSION}    Latest
 
 
