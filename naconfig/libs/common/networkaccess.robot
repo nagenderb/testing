@@ -5,6 +5,15 @@ Library    SeleniumLibrary
 ${register_button}        //button[normalize-space(.)='Register']
 
 *** Keywords ***
+Create Network Configuration
+    [Arguments]     ${networkName}      ${ipAddress}        ${subnetMask}       ${gateway}      ${dnsServer}
+    Input Text    id=networkName    Office-WiFi
+    Input Text    id=ipAddress      192.168.10.20
+    Input Text    id=subnetMask     255.255.255.0
+    Input Text    id=gateway        192.168.10.1
+    Input Text    id=dnsServer      192.168.10.5
+    Click Button    id=saveConfiguration
+    
 Start Registering
     Capture Page Screenshot    BASE64
     Wait Until Element Is Visible    ${register_button}
