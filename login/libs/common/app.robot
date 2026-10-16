@@ -4,7 +4,7 @@ Library    SeleniumLibrary
 
 *** Variables ***
 ${URL}                    file://${CURDIR}/../../host/
-
+${DEFAULT_APP_VERSION}    Latest
 
 
 *** Keywords ***
@@ -16,6 +16,7 @@ Open Application
     Evaluate    $options.add_argument("--disable-gpu")
     Evaluate    $options.add_argument("--window-size=1920,1080")
     Open Browser    browser=chrome    options=${options}
-    Log    APP_VERSION is set to: ${APP_VERSION}
-    Go To    ${URL}${APP_VERSION}.html
+    ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
+    Log    APP_VERSION is set to: ${version}
+    Go To    ${URL}${version}.html
     Capture Page Screenshot    BASE64
