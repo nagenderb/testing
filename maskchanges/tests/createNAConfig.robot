@@ -17,6 +17,7 @@ Save IPv4 Network Configuration
     Input Text    id=gateway        192.168.1.1
     Click Button    id=saveConfiguration
     Element Text Should Be    id=statusMessage    Network configuration saved successfully.
+    Capture Page Screenshot    BASE64
 
 *** Keywords ***
 Open The Browser
