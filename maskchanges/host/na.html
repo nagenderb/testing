@@ -118,15 +118,10 @@
   <script>
     document.getElementById("networkForm").addEventListener("submit", function (event) {
       event.preventDefault();
-      const ipv4 = document.getElementById("ipv4Address").value.trim();
-      const subnet = document.getElementById("subnetMask").value.trim();
-      const dns = document.getElementById("dnsServer").value.trim();
-      const gateway = document.getElementById("gateway").value.trim();
-
+      
       document.getElementById("statusMessage").textContent =
         "Network configuration saved successfully.";
-      document.getElementById("savedSummary").textContent =
-        `IPv4: ${ipv4} | Subnet Mask: ${subnet} | DNS Server: ${dns} | Gateway: ${gateway}`;
+      
     });
   </script>
 </body>
