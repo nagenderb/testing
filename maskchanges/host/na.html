@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Settings | NetOps</title>
+  <style>
+    :root {
+      --navy: #17324d;
+      --blue: #2563eb;
+      --blue-hover: #1d4ed8;
+      --page: #f3f6fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #d6deea;
+      --success-bg: #ecfdf3;
+      --success-text: #166534;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page);
+      color: var(--text);
+    }
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 22px max(24px, calc((100% - 960px) / 2));
+    }
+    .brand { font-size: 19px; font-weight: 700; letter-spacing: .2px; }
+    .subtitle { margin-top: 5px; color: #dbeafe; font-size: 13px; }
+    main { width: min(680px, calc(100% - 32px)); margin: 36px auto; }
+    .card {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .05);
+    }
+    h1 { margin: 0 0 8px; font-size: 25px; }
+    .intro { margin: 0 0 25px; color: var(--muted); line-height: 1.5; }
+    .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+    label { font-size: 13px; font-weight: 650; color: #334155; }
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .13);
+    }
+    .actions { display: flex; justify-content: flex-end; margin-top: 24px; }
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 18px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    button:hover { background: var(--blue-hover); }
+    #statusMessage {
+      min-height: 42px;
+      margin-top: 20px;
+      padding: 12px 14px;
+      border-radius: 7px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      font-weight: 600;
+    }
+    #savedSummary { color: var(--muted); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+    @media (max-width: 520px) { .card { padding: 21px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">NetOps Console</div>
+    <div class="subtitle">Network administration workspace</div>
+  </header>
+  <main>
+    <section class="card" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Network Settings</h1>
+      <p class="intro">Configure the IPv4 network address and related network settings.</p>
+      <form id="networkForm">
+        <div class="field">
+          <label for="ipv4Address">IPv4 Address</label>
+          <input id="ipv4Address" name="ipv4Address" type="text"
+                 placeholder="e.g. 192.168.1.20" required>
+        </div>
+        <div class="field">
+          <label for="subnetMask">Subnet Mask</label>
+          <input id="subnetMask" name="subnetMask" type="text"
+                 placeholder="e.g. 255.255.255.0" required>
+        </div>
+        <div class="field">
+          <label for="dnsServer">DNS Server</label>
+          <input id="dnsServer" name="dnsServer" type="text"
+                 placeholder="e.g. 8.8.8.8" required>
+        </div>
+        <div class="field">
+          <label for="gateway">Gateway</label>
+          <input id="gateway" name="gateway" type="text"
+                 placeholder="e.g. 192.168.1.1" required>
+        </div>
+        <div class="actions">
+          <button id="saveConfiguration" type="submit">Save Configuration</button>
+        </div>
+      </form>
+      <div id="statusMessage" role="status" aria-live="polite">No configuration saved yet.</div>
+      <p id="savedSummary">Saved network settings will appear here.</p>
+    </section>
+  </main>
+  <script>
+    document.getElementById("networkForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const ipv4 = document.getElementById("ipv4Address").value.trim();
+      const subnet = document.getElementById("subnetMask").value.trim();
+      const dns = document.getElementById("dnsServer").value.trim();
+      const gateway = document.getElementById("gateway").value.trim();
+
+      document.getElementById("statusMessage").textContent =
+        "Network configuration saved successfully.";
+      document.getElementById("savedSummary").textContent =
+        `IPv4: ${ipv4} | Subnet Mask: ${subnet} | DNS Server: ${dns} | Gateway: ${gateway}`;
+    });
+  </script>
+</body>
+</html>
