@@ -1,4 +1,4 @@
 robotframework
-robotframework-seleniumlibrary
-selenium
+robotframework-seleniumlibrary==6.8.0
+selenium==4.44.0
 openpyxl
