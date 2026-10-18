@@ -6,7 +6,7 @@ Resource    ../libs/common/login.robot
 Suite Setup     Initialize Client
 Test Setup      Open The Browser
 *** Variables ***
-${URL}                    file://${CURDIR}/../host/na.html
+${URL}                    file://${CURDIR}/../host/
 
 *** Test Cases ***
 Save IPv4 Network Configuration
@@ -29,5 +29,9 @@ Open The Browser
     Open Browser    browser=chrome    options=${options}
 
 Navigate To The Network Configuration
-    Go To    ${URL}
+    IF    '${APP_VERSION}' == 'Latest'
+        Go To    ${URL}old.html
+    ELSE
+        Go To    ${URL}latest.html
+    END
     Capture Page Screenshot    BASE64
