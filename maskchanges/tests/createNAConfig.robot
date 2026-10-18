@@ -11,7 +11,12 @@ ${URL}                    file://${CURDIR}/../host/
 *** Test Cases ***
 Save IPv4 Network Configuration
     Navigate To The Network Configuration
-    Input Text    id=ipv4Address    192.168.1.20re
+    Input Text    id=ipv4Address    192.168.1.20
+    IF    '${APP_VERSION}'  ==  'Latest'
+        Input Text    id=subnetMask    255.255.255.0
+    ELSE
+        No Operation
+    END
     Input Text    id=dnsServer      8.8.8.8
     Input Text    id=gateway        192.168.1.1
     Click Button    id=saveConfiguration
