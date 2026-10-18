@@ -30,8 +30,8 @@ Open The Browser
 
 Navigate To The Network Configuration
     IF    '${APP_VERSION}' == 'Latest'
-        Go To    ${URL}old.html
-    ELSE
         Go To    ${URL}latest.html
+    ELSE
+        Go To    ${URL}old.html
     END
     Capture Page Screenshot    BASE64
