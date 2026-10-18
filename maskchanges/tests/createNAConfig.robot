@@ -12,7 +12,7 @@ ${URL}                    file://${CURDIR}/../host/
 Save IPv4 Network Configuration
     Navigate To The Network Configuration
     Input Text    id=ipv4Address    192.168.1.20
-    IF  '${APP_VERSION}'   ==   'Latest'
+    IF  '${APP_VERSION}' == 'Latest'
         Input Text      id=subnetMask       255.255.255.0
     ELSE
         No Operation
