@@ -8,6 +8,7 @@ ${DEFAULT_APP_VERSION}    Latest
 ${BROWSER}      chrome
 *** Keywords ***
 Open Application
+    Log    BROWSER selected is ${BROWSER}
     Open Browser    ${URL}    {BROWSER}
     Maximize Browser Window
     ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
