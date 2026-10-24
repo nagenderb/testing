@@ -9,7 +9,7 @@ ${DEFAULT_APP_VERSION}    Latest
 
 *** Keywords ***
 Open Application
-    Open Browser    ${URL}    firefox
+    Open Browser    ${URL}    chrome
     Maximize Browser Window
     ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
     Log    APP_VERSION is set to: ${version}
