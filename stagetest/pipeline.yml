@@ -15,10 +15,10 @@ pipeline {
                     pwd
 
                     echo "=== RUN ROBOT TESTS ==="
-                    rm -rf login/results
-                    mkdir -p login/results
+                    rm -rf stagetest/results
+                    mkdir -p stagetest/results
 
-                    cd login
+                    cd stagetest
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
