@@ -5,11 +5,10 @@ Library    SeleniumLibrary
 *** Variables ***
 ${URL}                    file://${CURDIR}/../../host/
 ${DEFAULT_APP_VERSION}    Latest
-${BROWSER}    chrome
 
 *** Keywords ***
 Open Application
-    Open Browser    ${URL}    ${BROWSER}
+    Open Browser    ${URL}    chrome
     Maximize Browser Window
     ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
     Log    APP_VERSION is set to: ${version}
