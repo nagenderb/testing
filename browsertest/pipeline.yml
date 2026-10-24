@@ -25,7 +25,7 @@ pipeline {
                 sh '''
                     rm -rf results
                     mkdir -p results
-                    cd login                    
+                    cd browsertest                    
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
@@ -39,7 +39,7 @@ pipeline {
     post {
         always {
             robot(
-                outputPath: 'login/results',
+                outputPath: 'browsertest/results',
                 outputFileName: 'output.xml',
                 reportFileName: 'report.html',
                 logFileName: 'log.html'
