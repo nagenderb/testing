@@ -1,0 +1,16 @@
+*** Settings ***
+Library    SeleniumLibrary
+
+
+*** Variables ***
+${URL}                    file://${CURDIR}/../../host/
+${DEFAULT_APP_VERSION}    Latest
+
+*** Keywords ***
+Open Application
+    Open Browser    ${URL}    chrome
+    Maximize Browser Window
+    ${version}=    Get Variable Value    \${APP_VERSION}    ${DEFAULT_APP_VERSION}
+    Log    APP_VERSION is set to: ${version}
+    Go To    ${URL}${version}.html
+    Capture Page Screenshot    BASE64

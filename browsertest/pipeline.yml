@@ -1,0 +1,53 @@
+pipeline {
+    agent {
+        label 'mac-runner'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/nagenderb/testing.git'
+            }
+        }
+        stage('DEBUG Tests') {
+            steps {
+                sh '''
+                    ls -a
+                    pwd
+                '''
+            }
+        }
+
+        stage('Run Robot Tests') {
+            steps {
+                sh '''
+                    rm -rf results
+                    mkdir -p results
+                    cd login                    
+                    python3 -m robot \
+                        -d results \
+                        --variable APP_VERSION:"${APP_VERSION}" \
+                        tests/Login.robot
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            robot(
+                outputPath: 'login/results',
+                outputFileName: 'output.xml',
+                reportFileName: 'report.html',
+                logFileName: 'log.html'
+            )
+
+            archiveArtifacts(
+                artifacts: 'results/**/*,demoapp.log',
+                allowEmptyArchive: true
+            )
+        }
+    }
+}
