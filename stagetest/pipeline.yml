@@ -31,14 +31,14 @@ pipeline {
     post {
         always {
             robot(
-                outputPath: 'login/results',
+                outputPath: 'stagetest/results',
                 outputFileName: 'output.xml',
                 reportFileName: 'report.html',
                 logFileName: 'log.html'
             )
 
             archiveArtifacts(
-                artifacts: 'login/results/**/*,demoapp.log',
+                artifacts: 'stagetest/results/**/*,demoapp.log',
                 allowEmptyArchive: true
             )
         }
