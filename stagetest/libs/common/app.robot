@@ -3,7 +3,7 @@ Library    SeleniumLibrary
 
 
 *** Variables ***
-${URL}                    file://${CURDIR}/../../host/
+${URL}                    file://${CURDIR}/../../host/Latest.html
 ${DEFAULT_APP_VERSION}    Latest
 
 *** Keywords ***
@@ -12,5 +12,5 @@ Open Application
     Maximize Browser Window
     ${version}=    Get Variable Value    ${APP_VERSION}    ${DEFAULT_APP_VERSION}
     Log    APP_VERSION is set to: ${version}
-    Go To    ${URL}${version}.html
+    Go To    ${URL}
     Capture Page Screenshot    BASE64
