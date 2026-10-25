@@ -1,7 +1,4 @@
 pipeline {
-    agent {
-        label "${params.OS_ARCH}"
-    }
 
     stages {
 
