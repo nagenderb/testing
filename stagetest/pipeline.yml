@@ -11,15 +11,11 @@ pipeline {
 
                 sh '''
                     echo "=== DEBUG ==="
-                    ls -a
-                    pwd
-
-                    echo "=== RUN ROBOT TESTS ==="
                     rm -rf stagetest/results
                     mkdir -p stagetest/results
-
                     cd stagetest
                     python3  utils/initializeapp.py
+                    echo "=== RUN ROBOT TESTS ==="
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
