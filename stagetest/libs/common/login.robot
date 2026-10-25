@@ -27,12 +27,12 @@ User Login
 
 Navigate To Users
     [Documentation]    Logs in using the provided email and password, then verifies the login modal message.
-    Sleep    5s
+    Sleep    1s
 
 Edit User
     [Documentation]    Logs in using the provided email and password, then verifies the login modal message.
-    Sleep    5s
+    Sleep    3s
 
 Verify Changes Of User
 [Documentation]    Logs in using the provided email and password, then verifies the login modal message.
-    Sleep    5s
+    Sleep    2s
