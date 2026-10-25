@@ -19,10 +19,13 @@ pipeline {
                     mkdir -p stagetest/results
 
                     cd stagetest
+                    python3  utils/initializeapp.py
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
                         tests/Login.robot
+                    python3  utils/exportresults.py
+                    
                 '''
             }
         }
