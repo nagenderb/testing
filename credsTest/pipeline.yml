@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label "${params.OS_ARCH}"
-    }
+    agent any
 
     environment {
         APM_ADMIN = credentials('apm-admin-credentials')
