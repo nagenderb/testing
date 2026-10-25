@@ -34,5 +34,5 @@ Edit User
     Sleep    3s
 
 Verify Changes Of User
-[Documentation]    Logs in using the provided email and password, then verifies the login modal message.
+    [Documentation]    Logs in using the provided email and password, then verifies the login modal message.
     Sleep    2s
