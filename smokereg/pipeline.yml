@@ -31,7 +31,6 @@ pipeline {
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
-                        --include "${TESTS}" \
                         tests
                    
                 '''          
