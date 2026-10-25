@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    environment {
+        APM_ADMIN = credentials('apm-admin-credentials')
+    }
     stages {
 
         stage('Checkout') {
