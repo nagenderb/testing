@@ -5,11 +5,15 @@ pipeline {
 
     stages {
         stage('Clone Repo') {
+            steps {
                 git branch: 'main',
                     url: 'https://github.com/nagenderb/testing.git'
+            
+            }
         
         }
         stage('Pre-Requisite') {
+            steps {
                 sh '''
                     rm -rf stagetest/results
                     mkdir -p stagetest/results
@@ -17,8 +21,11 @@ pipeline {
                     python3  utils/initializeapp.py
                     
                 '''        
+            
+            }
         }
         stage('Run Tests') {
+            steps {
                  sh '''
                     echo "=== RUN ROBOT TESTS ==="
                     cd stagetest
@@ -26,15 +33,18 @@ pipeline {
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
                         tests/Login.robot                    
-                '''
+                '''            
+            }
        
         }
         stage('Export Results') {
+            steps {
                 sh '''
                     cd stagetest
                     python3  utils/exportresults.py
                     
-                '''        
+                '''                    
+            }
         }
 
     }
