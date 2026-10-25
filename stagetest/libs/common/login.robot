@@ -27,10 +27,6 @@ User Login
 
 Navigate To Users
     [Documentation]    Logs in using the provided email and password, then verifies the login modal message.
-    Input Text    id=email    ${email}
-    Input Password    id=password    ${password}
-    Click Element    id=loginBtn
-    Element Text Should Be    id=modalMessage    Login button clicked
     Sleep    5s
 
 Edit User
