@@ -8,7 +8,8 @@ ${URL}                    file://${CURDIR}/../../host/
 
 *** Keywords ***
 Initialize Client
-    ${username}=    Get Environment Variable    APM_ADMIN_USR
-    ${password}=    Get Environment Variable    APM_ADMIN_PSW
+    ${username}=    Set Variable    apmadmin
+    ${password}=    Set Variable    admin123
     Log    Username: ${username}
     Log    Password: ${password}
+
