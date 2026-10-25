@@ -8,6 +8,10 @@ Resource    ../libs/common/login.robot
 Register A New User
     Open Application
 
+Edit An Existing User
+    Navigate To Users
+    Edit User
+    Verify Changes Of User
     
 
 ##Click Element    xpath=//button[normalize-space(.)='Register' or normalize-space(.)='Signup']

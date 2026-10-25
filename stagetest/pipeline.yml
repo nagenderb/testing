@@ -10,7 +10,6 @@ pipeline {
                     url: 'https://github.com/nagenderb/testing.git'
 
                 sh '''
-                    echo "=== DEBUG ==="
                     rm -rf stagetest/results
                     mkdir -p stagetest/results
                     cd stagetest
