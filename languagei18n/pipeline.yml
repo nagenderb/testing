@@ -1,0 +1,46 @@
+pipeline {
+    agent {
+        label 'Linux'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+            
+                 git branch: 'main',
+                    url: 'https://github.com/nagenderb/testing.git'
+            }
+        }
+
+        stage('Run Robot Tests') {
+            steps {
+                sh '''
+                    rm -rf results
+                    mkdir -p results
+                    cd languagei18n                    
+                    python3 -m robot \
+                        -d results \
+                        --variable APP_VERSION:"${APP_VERSION}" \
+                        tests/createnetworks.robot
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            robot(
+                outputPath: 'languagei18n/results',
+                outputFileName: 'output.xml',
+                reportFileName: 'report.html',
+                logFileName: 'log.html'
+            )
+
+            archiveArtifacts(
+                artifacts: 'results/**/*,demoapp.log',
+                allowEmptyArchive: true
+            )
+        }
+    }
+}
