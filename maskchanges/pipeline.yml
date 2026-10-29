@@ -8,7 +8,7 @@ pipeline {
         stage('Checkout') {
             steps {
             
-                 git branch: 'main',
+                 git branch: "${params.BRANCH_NAME?.trim()?params.BRANCH_NAME.trim() : 'main'}",
                     url: 'https://github.com/nagenderb/testing.git'
             }
         }
