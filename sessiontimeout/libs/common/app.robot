@@ -9,7 +9,6 @@ ${URL}                    file://${CURDIR}/../../host/na.html
 
 *** Keywords ***
 Open Application
-    Check Selenium version
     ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
     Evaluate    $options.add_argument("--headless=new")
     Evaluate    $options.add_argument("--no-sandbox")
