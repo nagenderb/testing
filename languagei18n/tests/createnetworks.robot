@@ -16,5 +16,7 @@ Save Office Network Configuration
 
 *** Keywords ***
 Get Name From File
-    ${name_value}=    Get File    ${CURDIR}/data.txt    encoding=UTF-8
+    ${language}=    Get Variable Value    ${LANGUAGE_SELECTED}    english
+
+    ${name_value}=    Get File    ${CURDIR}/${language}/data.txt    encoding=UTF-8
     RETURN    ${name_value}

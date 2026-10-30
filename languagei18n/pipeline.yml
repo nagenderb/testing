@@ -22,6 +22,7 @@ pipeline {
                     python3 -m robot \
                         -d results \
                         --variable APP_VERSION:"${APP_VERSION}" \
+                        --variable LANGUAGE_SELECTED:"${LANGUAGE_SELECTED}" \
                         tests/createnetworks.robot
                 '''
             }
