@@ -8,6 +8,10 @@ ${register_button}        //button[normalize-space(.)='Register']
 Create Network Configuration
     [Arguments]     ${networkName}      ${ipAddress}        ${subnetMask}       ${gateway}      ${dnsServer}
     Input Text    id=networkName    ${networkName}
+    Capture Page Screenshot    BASE64
+    Click Element    id=networkName
+    Press Keys    id=networkName    ${name_value}
+    Capture Page Screenshot    BASE64
     Input Text    id=ipAddress      ${ipAddress}
     Input Text    id=subnetMask     ${subnetMask}
     Input Text    id=gateway        ${gateway}
