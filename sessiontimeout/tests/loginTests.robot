@@ -25,13 +25,15 @@ TC01 - Session Verification After Timeout
     Wait Until Element Is Visible    ${DASHBOARD}    10s
     Sleep    35s
     Verify Session Timedout
+    Capture Page Screenshot     BASE64
 
 TC02 - Session Verification Before Timeout
     User Login     admin    admin
     Wait Until Element Is Visible    ${DASHBOARD}    10s
     Sleep    20s
     Verify Session Not Timeout
-    
+    Capture Page Screenshot     BASE64
+
 *** Keywords ***
 User Login
     [Documentation]    Logs in using the provided username and password, then verifies the login modal message.
