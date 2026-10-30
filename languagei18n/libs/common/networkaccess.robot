@@ -10,7 +10,7 @@ Create Network Configuration
     Input Text    id=networkName    ${networkName}
     Capture Page Screenshot    BASE64
     Click Element    id=networkName
-    Press Keys    id=networkName    ${name_value}
+    Press Keys    id=networkName    ${networkName}
     Capture Page Screenshot    BASE64
     Input Text    id=ipAddress      ${ipAddress}
     Input Text    id=subnetMask     ${subnetMask}
