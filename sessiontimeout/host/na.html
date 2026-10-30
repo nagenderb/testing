@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Timeout Demo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 35px;
+            width: 380px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1e293b;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #dashboard {
+            display: none;
+            width: 90%;
+            max-width: 700px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .timer {
+            margin-top: 20px;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #countdown {
+            font-size: 35px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .status {
+            color: #64748b;
+            text-align: center;
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+
+        #timeoutMessage {
+            display: none;
+            text-align: center;
+            color: #dc2626;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+
+    <div class="container" id="loginPage">
+
+        <h2>Login</h2>
+
+        <p class="status">
+            Enter any username and password to continue.
+        </p>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter Username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+        >
+
+        <button onclick="login()">Login</button>
+
+        <p id="timeoutMessage">
+            Session expired due to 30 seconds of inactivity.
+            Please login again.
+        </p>
+
+    </div>
+
+
+    <!-- DASHBOARD PAGE -->
+
+    <div id="dashboard">
+
+        <h2>Welcome to Dashboard</h2>
+
+        <p>
+            Hello, <strong id="displayUser"></strong>!
+        </p>
+
+        <p>You are successfully logged in.</p>
+
+        <div class="timer">
+
+            <h3>Session Idle Timeout</h3>
+
+            <div id="countdown">30</div>
+
+            <p>Seconds remaining before automatic logout</p>
+
+            <p id="activityStatus" class="status">
+                Waiting for user activity...
+            </p>
+
+        </div>
+
+        <button class="logout" onclick="logout(false)">
+            Logout
+        </button>
+
+    </div>
+
+
+    <script>
+
+        const IDLE_TIMEOUT = 30;
+
+        let remainingTime = IDLE_TIMEOUT;
+        let timer = null;
+        let isLoggedIn = false;
+
+        // LOGIN FUNCTION
+
+        function login() {
+
+            const username =
+                document.getElementById("username").value;
+
+            const password =
+                document.getElementById("password").value;
+
+            if (username.trim() === "" || password.trim() === "") {
+                alert("Please enter username and password");
+                return;
+            }
+
+            document.getElementById("displayUser").innerText =
+                username;
+
+            document.getElementById("loginPage").style.display =
+                "none";
+
+            document.getElementById("dashboard").style.display =
+                "block";
+
+            document.getElementById("timeoutMessage").style.display =
+                "none";
+
+            isLoggedIn = true;
+
+            resetTimer();
+        }
+
+
+        // RESET TIMER WHEN USER PERFORMS ACTIVITY
+
+        function resetTimer() {
+
+            if (!isLoggedIn) return;
+
+            clearInterval(timer);
+
+            remainingTime = IDLE_TIMEOUT;
+
+            document.getElementById("countdown").innerText =
+                remainingTime;
+
+            document.getElementById("activityStatus").innerText =
+                "User activity detected. Timer reset!";
+
+            timer = setInterval(function() {
+
+                remainingTime--;
+
+                document.getElementById("countdown").innerText =
+                    remainingTime;
+
+                if (remainingTime <= 10) {
+                    document.getElementById("countdown").style.color =
+                        "#dc2626";
+                } else {
+                    document.getElementById("countdown").style.color =
+                        "#2563eb";
+                }
+
+                if (remainingTime <= 0) {
+                    logout(true);
+                }
+
+            }, 1000);
+        }
+
+
+        // DETECT USER ACTIVITY
+
+        const activityEvents = [
+            "mousemove",
+            "mousedown",
+            "keydown",
+            "scroll",
+            "touchstart",
+            "click"
+        ];
+
+        activityEvents.forEach(function(event) {
+
+            document.addEventListener(event, function() {
+
+                if (isLoggedIn) {
+                    resetTimer();
+                }
+
+            });
+
+        });
+
+
+        // LOGOUT FUNCTION
+
+        function logout(sessionExpired) {
+
+            clearInterval(timer);
+
+            isLoggedIn = false;
+
+            document.getElementById("dashboard").style.display =
+                "none";
+
+            document.getElementById("loginPage").style.display =
+                "block";
+
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+
+            document.getElementById("countdown").innerText =
+                IDLE_TIMEOUT;
+
+            document.getElementById("countdown").style.color =
+                "#2563eb";
+
+            if (sessionExpired) {
+
+                document.getElementById("timeoutMessage").style.display =
+                    "block";
+
+            } else {
+
+                document.getElementById("timeoutMessage").style.display =
+                    "none";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
