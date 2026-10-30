@@ -10,7 +10,7 @@ Test Setup       Open Application
 ${LOGIN_BUTTON}     xpath=//button[text()='Login']
 ${DASHBOARD}        id=dashboard
 ${LOGIN_PAGE}       id=loginPage
-
+${TIMEOUT_MESSAGE}      id=timeoutMessage
 *** Test Cases ***
 TC00 - Login And Verify Dashbaord
     User Login   admin   admin
@@ -20,7 +20,18 @@ TC00 - Login And Verify Dashbaord
     Log    Login successful. Dashboard displayed.
     Capture Page Screenshot    BASE64
 
+TC01 - Session Verification After Timeout
+    User Login     admin    admin
+    Wait Until Element Is Visible    ${DASHBOARD}    10s
+    Sleep    35s
+    Verify Session Timedout
 
+TC02 - Session Verification Before Timeout
+    User Login     admin    admin
+    Wait Until Element Is Visible    ${DASHBOARD}    10s
+    Sleep    20s
+    Verify Session Not Timeout
+    
 *** Keywords ***
 User Login
     [Documentation]    Logs in using the provided username and password, then verifies the login modal message.
@@ -29,3 +40,13 @@ User Login
     Input Text    id=username    ${USERNAME}
     Input Password    id=password    ${PASSWORD}
     Click Button    ${LOGIN_BUTTON}
+
+Verify Session Timedout
+    Element Should Be Visible       ${TIMEOUT_MESSAGE}
+    Element Should Not Be Visible       ${DASHBOARD}
+    Element Should Be Visible       ${LOGIN_PAGE}
+
+Verify Session Not Timeout
+    Element Should Not Be Visible       ${TIMEOUT_MESSAGE}
+    Element Should Be Visible       ${DASHBOARD}
+    Element Should Not Be Visible       ${LOGIN_PAGE}
