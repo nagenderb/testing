@@ -25,10 +25,3 @@ Verify Registration Modal Message
     
     Wait Until Element Is Visible    id=modalMessage    timeout=5s
     Element Text Should Be    id=modalMessage    You will be redirected to Registration.\nPlease keep your details ready.
-User Login
-    [Documentation]    Logs in using the provided username and password, then verifies the login modal message.
-    [Arguments]    ${USERNAME}    ${PASSWORD}
-    Wait Until Element Is Visible    id=username    10s
-    Input Text    id=username    ${USERNAME}
-    Input Password    id=password    ${PASSWORD}
-    Click Button    ${LOGIN_BUTTON}
