@@ -12,7 +12,7 @@ ${DASHBOARD}        id=dashboard
 ${LOGIN_PAGE}       id=loginPage
 
 *** Test Cases ***
-Login And Verify Dashbaord
+TC00 - Login And Verify Dashbaord
     User Login   admin   admin
     Wait Until Element Is Visible    ${DASHBOARD}    10s
     Page Should Contain    Welcome to Dashboard
