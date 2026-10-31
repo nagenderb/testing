@@ -18,8 +18,8 @@ Create Network Configuration
 
 Verify Required Parameters Error Message Is Displayed
     Wait Until Element Is Visible    id=errorModal    timeout=10s
-    Element Text Should Be    id=errorMessage    Both Network Name and IP Address are mandatory parameters
     Capture Page Screenshot    BASE64
+    Element Text Should Be    id=errorMessage    Both Network Name and IP Address are mandatory parameters
     Click Button    id=errorOkButton
 
 Start Registering
