@@ -16,11 +16,6 @@ Create Network Configuration
     Wait Until Element Is Visible       id=confirmationModal        timeout=10s
     Click Button    id=yesButton
 
-Verify Required Parameters Error Message Is Displayed
-    Wait Until Element Is Visible    id=errorModal    timeout=10s
-    Capture Page Screenshot    BASE64
-    Element Text Should Be    id=errorMessage    Both Network Name and IP Address are mandatory parameters
-    Click Button    id=errorOkButton
 
 Start Registering
     Capture Page Screenshot    BASE64
