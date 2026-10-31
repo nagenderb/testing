@@ -1,0 +1,4 @@
+networkname,ipaddress,subnetmask,default gateway,dns server
+Production-LAN,192.168.1.10,255.255.255.0,192.168.1.1,8.8.8.8
+Office-LAN,10.10.20.15,255.255.255.0,10.10.20.1,1.1.1.1
+Guest-WIFI,172.16.30.20,255.255.255.0,172.16.30.1,9.9.9.9

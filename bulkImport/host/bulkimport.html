@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Configuration</title>
+  <style>
+    :root {
+      --navy: #16324f;
+      --blue: #2563eb;
+      --blue-hover: #1d4ed8;
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #d7dfeb;
+      --success-bg: #ecfdf3;
+      --success: #166534;
+      --error-bg: #fef2f2;
+      --error: #b91c1c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 22px 28px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .12);
+    }
+
+    header .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #dbeafe;
+      font-size: 13px;
+    }
+
+    main {
+      width: min(760px, calc(100% - 32px));
+      margin: 36px auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, .05);
+    }
+
+    h1 { margin: 0 0 8px; font-size: 25px; }
+
+    .intro {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 13px;
+      font-weight: 650;
+      color: #334155;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .13);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 11px 18px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 650;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover { background: var(--blue-hover); }
+
+    #statusMessage {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 7px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-weight: 600;
+      min-height: 42px;
+    }
+
+    #savedSummary {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Custom confirmation dialog */
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .55);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 12px;
+      padding: 26px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+      animation: modalAppear .2s ease-out;
+    }
+
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      margin-bottom: 16px;
+    }
+
+    .modal-dialog h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #1e293b;
+    }
+
+    .modal-dialog p {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .modal-actions button {
+      min-width: 85px;
+    }
+
+    .btn-no {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .btn-no:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-yes {
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-yes:hover {
+      background: var(--blue-hover);
+    }
+
+    .modal-icon.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .btn-ok {
+      background: var(--error);
+      color: #fff;
+    }
+
+    .btn-ok:hover {
+      background: #991b1b;
+    }
+
+    .required-mark {
+      color: var(--error);
+      margin-left: 3px;
+    }
+
+    @media (max-width: 560px) {
+      .card { padding: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+
+    .upload-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .browse-label {
+      padding: 11px 18px;
+      border-radius: 7px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .browse-label:hover {
+      background: var(--blue-hover);
+    }
+
+    #csvFile {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    #fileName {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .empty-table {
+      text-align: center;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .save-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    #saveConfigurations {
+      display: none;
+    }
+
+    #statusMessage.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    #bulkStatusMessage {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 7px;
+      background: var(--success-bg);
+      color: var(--success);
+      font-weight: 600;
+      min-height: 42px;
+    }
+
+    #bulkStatusMessage.error {
+      background: var(--error-bg);
+      color: var(--error);
+    }
+</style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">NetOps Console</div>
+    <p>Network administration · Configuration workspace</p>
+  </header>
+
+  <main>
+    
+    <section class="card" aria-labelledby="bulkImportTitle">
+      <h1 id="bulkImportTitle">Bulk Network Configuration Import</h1>
+
+      <p class="intro">
+        Browse for a CSV file containing network configuration details.
+      </p>
+
+      <div class="upload-row">
+        <label class="browse-label" for="csvFile">Browse CSV File</label>
+        <input id="csvFile" type="file" accept=".csv,text/csv">
+        <span id="fileName">No CSV loaded</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Network Name</th>
+              <th>IP Address</th>
+              <th>Subnet Mask</th>
+              <th>Default Gateway</th>
+              <th>DNS Server</th>
+            </tr>
+          </thead>
+          <tbody id="networkTableBody">
+            <tr>
+              <td colspan="5" class="empty-table">No CSV file loaded</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="save-actions">
+        <button id="saveConfigurations" type="button">
+          Save Network Configurations
+        </button>
+      </div>
+
+      <div id="bulkStatusMessage"
+         role="status"
+         aria-live="polite">
+        No CSV loaded
+      </div>
+    </section>
+  </main>
+
+  <!-- Custom confirmation dialog -->
+
+  <div id="confirmationModal"
+       class="modal-overlay"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="confirmationTitle"
+       aria-describedby="confirmationText">
+
+    <div class="modal-dialog">
+
+      <div class="modal-icon">?</div>
+
+      <h2 id="confirmationTitle">Confirm Configuration</h2>
+
+      <p id="confirmationText">
+        Are you sure you want to save this network configuration?
+        Please confirm before proceeding.
+      </p>
+
+      <div class="modal-actions">
+
+        <button type="button"
+                id="noButton"
+                class="btn-no">
+          No
+        </button>
+
+        <button type="button"
+                id="yesButton"
+                class="btn-yes">
+          Yes
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Error message box -->
+  <div id="errorModal" class="modal-overlay" role="alertdialog"
+       aria-modal="true"
+       aria-labelledby="errorTitle"
+       aria-describedby="errorMessage">
+
+    <div class="modal-dialog">
+
+      <div class="modal-icon error">!</div>
+
+      <h2 id="errorTitle">Error</h2>
+
+      <p id="errorMessage"></p>
+
+      <div class="modal-actions">
+
+        <button type="button"
+                id="errorOkButton"
+                class="btn-ok">
+          OK
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+
+    const form = document.getElementById("networkForm");
+
+    const modal = document.getElementById("confirmationModal");
+
+    const yesButton = document.getElementById("yesButton");
+
+    const noButton = document.getElementById("noButton");
+
+    const errorModal = document.getElementById("errorModal");
+
+    const errorMessage = document.getElementById("errorMessage");
+
+    const errorOkButton = document.getElementById("errorOkButton");
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorModal.classList.add("show");
+      errorOkButton.focus();
+    }
+
+    function hideError() {
+      errorModal.classList.remove("show");
+    }
+
+    // Display confirmation dialog when Save is clicked
+
+    form.addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const name = document.getElementById("networkName").value.trim();
+      const ip = document.getElementById("ipAddress").value.trim();
+
+      if (!name || !ip) {
+        showError("Both Network Name and IP Address are mandatory parameters");
+        return;
+      }
+
+      modal.classList.add("show");
+
+      yesButton.focus();
+
+    });
+
+    errorOkButton.addEventListener("click", hideError);
+
+    // YES: Proceed with saving configuration
+
+    yesButton.addEventListener("click", function() {
+
+      const name = document.getElementById("networkName").value.trim();
+      const ip = document.getElementById("ipAddress").value.trim();
+      const mask = document.getElementById("subnetMask").value.trim();
+      const gateway = document.getElementById("gateway").value.trim();
+      const dns = document.getElementById("dnsServer").value.trim();
+
+      document.getElementById("statusMessage").textContent =
+        `Configuration saved successfully for ${name}.`;
+
+      document.getElementById("savedSummary").textContent =
+        `IP: ${ip} | Subnet: ${mask} | Gateway: ${gateway} | DNS: ${dns}`;
+
+      // Close dialog
+
+      modal.classList.remove("show");
+
+    });
+
+    // NO: Cancel saving configuration
+
+    noButton.addEventListener("click", function() {
+
+      modal.classList.remove("show");
+
+    });
+
+    // Escape key closes dialog without saving
+
+    document.addEventListener("keydown", function(event) {
+
+      if (event.key === "Escape" && modal.classList.contains("show")) {
+        modal.classList.remove("show");
+      }
+
+      if (event.key === "Escape" && errorModal.classList.contains("show")) {
+        hideError();
+      }
+
+    });
+
+  </script>
+
+  <script>
+    const csvFile = document.getElementById("csvFile");
+    const fileName = document.getElementById("fileName");
+    const networkTableBody = document.getElementById("networkTableBody");
+    const saveConfigurations = document.getElementById("saveConfigurations");
+    const bulkStatusMessage = document.getElementById("bulkStatusMessage");
+
+    let configurations = [];
+
+    function parseCsvRow(row) {
+      const values = [];
+      let value = "";
+      let insideQuotes = false;
+
+      for (let index = 0; index < row.length; index++) {
+        const character = row[index];
+
+        if (character === '"' && insideQuotes && row[index + 1] === '"') {
+          value += '"';
+          index++;
+        } else if (character === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (character === "," && !insideQuotes) {
+          values.push(value.trim());
+          value = "";
+        } else {
+          value += character;
+        }
+      }
+
+      values.push(value.trim());
+      return values;
+    }
+
+    function normalizeHeader(header) {
+      return header.toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    function showBulkError(message) {
+      bulkStatusMessage.classList.remove("success");
+      bulkStatusMessage.classList.add("error");
+      bulkStatusMessage.textContent = message;
+      saveConfigurations.style.display = "none";
+    }
+
+    csvFile.addEventListener("change", function () {
+      const file = csvFile.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      fileName.textContent = file.name;
+      bulkStatusMessage.classList.remove("error");
+      bulkStatusMessage.textContent = "Reading CSV file...";
+
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const lines = event.target.result
+          .replace(/^\uFEFF/, "")
+          .split(/\r?\n/)
+          .filter(line => line.trim());
+
+        if (lines.length < 2) {
+          configurations = [];
+          networkTableBody.replaceChildren();
+          showBulkError("The CSV file must contain a header and at least one network.");
+          return;
+        }
+
+        const headers = parseCsvRow(lines[0]).map(normalizeHeader);
+        const requiredHeaders = [
+          "networkname",
+          "ipaddress",
+          "subnetmask",
+          "defaultgateway",
+          "dnsserver"
+        ];
+
+        if (!requiredHeaders.every(header => headers.includes(header))) {
+          configurations = [];
+          showBulkError(
+            "CSV headers must include: networkname, ipaddress, subnetmask, default gateway, dns server"
+          );
+          return;
+        }
+
+        configurations = lines.slice(1).map(line => {
+          const values = parseCsvRow(line);
+
+          return {
+            networkName: values[headers.indexOf("networkname")] || "",
+            ipAddress: values[headers.indexOf("ipaddress")] || "",
+            subnetMask: values[headers.indexOf("subnetmask")] || "",
+            defaultGateway: values[headers.indexOf("defaultgateway")] || "",
+            dnsServer: values[headers.indexOf("dnsserver")] || ""
+          };
+        }).filter(network =>
+          network.networkName ||
+          network.ipAddress ||
+          network.subnetMask ||
+          network.defaultGateway ||
+          network.dnsServer
+        );
+
+        networkTableBody.replaceChildren();
+
+        if (!configurations.length) {
+          showBulkError("No network configurations were found in the CSV file.");
+          return;
+        }
+
+        configurations.forEach(network => {
+          const row = document.createElement("tr");
+
+          [
+            network.networkName,
+            network.ipAddress,
+            network.subnetMask,
+            network.defaultGateway,
+            network.dnsServer
+          ].forEach(value => {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+            row.appendChild(cell);
+          });
+
+          networkTableBody.appendChild(row);
+        });
+
+        bulkStatusMessage.classList.remove("error");
+        bulkStatusMessage.textContent =
+          `${configurations.length} network configurations loaded successfully.`;
+        saveConfigurations.style.display = "inline-block";
+      };
+
+      reader.onerror = function () {
+        configurations = [];
+        showBulkError("Unable to read the selected CSV file.");
+      };
+
+      reader.readAsText(file);
+    });
+
+    saveConfigurations.addEventListener("click", function () {
+      if (!configurations.length) {
+        showBulkError("Please browse and load a valid CSV file.");
+        return;
+      }
+
+      bulkStatusMessage.classList.remove("error");
+      bulkStatusMessage.textContent =
+        "Network configuration imported successfully";
+    });
+  </script>
+
+</body>
+</html>
