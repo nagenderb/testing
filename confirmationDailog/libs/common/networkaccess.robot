@@ -13,6 +13,8 @@ Create Network Configuration
     Input Text    id=gateway        ${gateway}
     Input Text    id=dnsServer      ${dnsServer}
     Click Button    id=saveConfiguration
+    Wait Until Element Is Visible       id=confirmationModal        timeout=10s
+    Click Button    id=yesButton
 
 Start Registering
     Capture Page Screenshot    BASE64
