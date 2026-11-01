@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network List</title>
+  <style>
+    :root {
+      --navy: #16324f;
+      --blue: #2563eb;
+      --blue-hover: #1d4ed8;
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #d7dfeb;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--navy); color: #fff; padding: 22px 28px; box-shadow: 0 2px 8px rgba(15, 23, 42, .12); }
+    header .brand { font-size: 18px; font-weight: 700; }
+    header p { margin: 5px 0 0; color: #dbeafe; font-size: 13px; }
+    main { width: min(1100px, calc(100% - 32px)); margin: 36px auto; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; box-shadow: 0 8px 24px rgba(15, 23, 42, .05); }
+    h1 { margin: 0 0 8px; font-size: 25px; }
+    .intro { margin: 0; color: var(--muted); }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 24px 0 16px; }
+    .network-count { color: var(--muted); font-size: 14px; }
+    button { border: 0; border-radius: 7px; padding: 11px 18px; background: var(--blue); color: #fff; font-weight: 650; font-size: 14px; cursor: pointer; }
+    button:hover { background: var(--blue-hover); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 13px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { background: #f8fafc; color: #334155; font-size: 13px; }
+    td { font-size: 14px; }
+    tbody tr:last-child td { border-bottom: 0; }
+    #exportStatus { min-height: 21px; margin: 14px 0 0; color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">NetOps Console</div>
+    <p>Network administration · Listed networks</p>
+  </header>
+  <main>
+    <section class="card" aria-labelledby="pageTitle">
+      <h1 id="pageTitle">Network List</h1>
+      <p class="intro">Currently listed network configurations.</p>
+
+      <div class="toolbar">
+        <span id="networkCount" class="network-count">3 networks</span>
+        <button id="exportToCsv" type="button">Export To CSV</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="networkTable">
+          <thead>
+            <tr>
+              <th>Network Name</th>
+              <th>IP Address</th>
+              <th>Subnet Mask</th>
+              <th>Default Gateway</th>
+              <th>DNS Server</th>
+            </tr>
+          </thead>
+          <tbody id="networkList">
+            <tr class="network-row">
+              <td class="network-name">Dev-Network</td>
+              <td>192.168.10.20</td>
+              <td>255.255.255.0</td>
+              <td>192.168.10.1</td>
+              <td>192.168.10.5</td>
+            </tr>
+            <tr class="network-row">
+              <td class="network-name">Stag-Network</td>
+              <td>192.168.20.20</td>
+              <td>255.255.255.0</td>
+              <td>192.168.20.1</td>
+              <td>192.168.20.5</td>
+            </tr>
+            <tr class="network-row">
+              <td class="network-name">Prod-Network</td>
+              <td>192.168.30.20</td>
+              <td>255.255.255.0</td>
+              <td>192.168.30.1</td>
+              <td>192.168.30.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="exportStatus" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script>
+    const exportButton = document.getElementById("exportToCsv");
+
+    function csvCell(value) {
+      const text = String(value).replace(/"/g, '""');
+      return /[",\r\n]/.test(text) ? `"${text}"` : text;
+    }
+
+    exportButton.addEventListener("click", function () {
+      const table = document.getElementById("networkTable");
+      const rows = Array.from(table.querySelectorAll("tr"));
+      const csv = rows.map(function (row) {
+        return Array.from(row.querySelectorAll("th, td"))
+          .map(function (cell) { return csvCell(cell.textContent.trim()); })
+          .join(",");
+      }).join("\r\n");
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "network-list.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+
+      document.getElementById("exportStatus").textContent =
+        "Networks exported successfully to network-list.csv.";
+    });
+  </script>
+</body>
+</html>
