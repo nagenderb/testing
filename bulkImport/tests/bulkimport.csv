@@ -1,0 +1,4 @@
+networkname,ipaddress,subnetmask,default gateway,dns server
+DevNW,10.10.10.10,255.255.255.0,10.10.10.1,8.8.8.8
+StagNW,11.11.11.11,255.255.255.0,11.11.11.1,8.8.8.8
+ProdNW,12.12.12.12,255.255.255.0,12.12.12.1,8.8.8.8

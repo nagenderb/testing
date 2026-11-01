@@ -15,3 +15,13 @@ Save Office Network Configuration
     Element Text Should Be    id=statusMessage    Configuration saved successfully for Office-WiFi.
 
 
+Bulk Import Network Configurations
+    Navigate To Bulk Import
+    Wait Until Page Contains Element        id=csvFile      10s
+    Choose File     id=csvFile      ${BULK_IMPORT_CSV}
+    Wait Until Element Is Visible       id=saveConfigurations
+    Capture Page Screenshot     BASE64
+    Wait Until Element Contains     id=bulkStatusMessage        loaded successfully
+    Click Element       id=saveConfigurations
+    Capture Page Screenshot     BASE64
+    Wait Until Element Contains     id=bulkStatusMessage        imported successfully
