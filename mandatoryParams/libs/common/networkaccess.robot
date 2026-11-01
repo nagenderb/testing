@@ -16,6 +16,10 @@ Create Network Configuration
     Wait Until Element Is Visible       id=confirmationModal        timeout=10s
     Click Button    id=yesButton
 
+Verify Required Error Message Is Displayed
+    Wait Until Element Is Visible    id=errorModal      timeout=10s
+    Capture Page Screenshot     BASE64
+    Click Button        id=errorOkButton
 
 Start Registering
     Capture Page Screenshot    BASE64
